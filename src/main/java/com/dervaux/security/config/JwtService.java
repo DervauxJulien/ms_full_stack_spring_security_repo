@@ -41,17 +41,17 @@ public class JwtService {
               .setClaims(extraClaims)
               .setSubject(userDetails.getUsername())
               .setIssuedAt(new Date(System.currentTimeMillis()))
-              .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+              .setExpiration(new Date(System.currentTimeMillis() + 100000 * 60 * 24))
               .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     private Claims extractAllClaims(String token){
         return Jwts
-                .parser()
-                .verifyWith(getSignInKey())
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)
+                .getBody();
     }
     
     public boolean isTokenValid(String token, UserDetails userDetails){

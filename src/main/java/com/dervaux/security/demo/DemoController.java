@@ -12,4 +12,16 @@ public class DemoController {
     public ResponseEntity<String> sayHello() {
         return ResponseEntity.ok("Hello from secured endpoint");
     }
+    @GetMapping("/admin")
+    public ResponseEntity<String> admin() {
+        return ResponseEntity.ok("Hello from admin endpoint");
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<String> user() {
+        return ResponseEntity.ok("Hello from user endpoint");
+    }
+
 }
+
+
