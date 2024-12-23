@@ -4,8 +4,6 @@ import com.dervaux.security.config.JwtService;
 import com.dervaux.security.user.Role;
 import com.dervaux.security.user.User;
 import com.dervaux.security.user.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,17 +35,8 @@ public class AuthenticationService {
                 user.setLastname(request.getLastname());
                 user.setEmail(request.getEmail());
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
-                user.setRole(Role.USER);
+                user.setRole(Role.valueOf(request.getRole().toUpperCase()));
         userRepository.save(user);
-
-//        var user = User.builder()
-//                .firstname(request.getFirstname())
-//                .lastname(request.getLastname())
-//                .email(request.getEmail())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .role(Role.USER)
-//                .build();
-//        userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
